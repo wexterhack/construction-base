@@ -58,6 +58,7 @@ class Supplier(models.Model):
         db_index=True,
         verbose_name='domain name',
         help_text='Example: `example.com`',
+        unique=True,
     )
 
 
@@ -94,6 +95,11 @@ class Offer(models.Model):
         help_text='',
     )
 
+    @property
+    def price(self):
+        price_obj = self.prices.first()
+        return price_obj.amount
+
     class Meta:
         unique_together = ('product', 'supplier')
 
@@ -121,6 +127,9 @@ class Price(models.Model):
         verbose_name='amount',
         help_text='Price amount',
     )
+
+    class Meta:
+        ordering = ('-date',)
 
 
 __all__ = (
