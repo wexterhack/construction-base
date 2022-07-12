@@ -61,6 +61,9 @@ class Supplier(models.Model):
         unique=True,
     )
 
+    def __str__(self):
+        return self.name
+
 
 class Offer(models.Model):
     name = models.CharField(
@@ -98,7 +101,9 @@ class Offer(models.Model):
     @property
     def price(self):
         price_obj = self.prices.first()
-        return price_obj.amount
+        if price_obj:
+            return price_obj.amount
+        return Decimal('0.00')
 
     class Meta:
         unique_together = ('product', 'supplier')

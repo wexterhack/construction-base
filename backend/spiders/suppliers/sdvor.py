@@ -6,8 +6,6 @@ from ..items import OfferItem
 
 
 class SDvorSpider(SitemapSpider):
-    username = 'sonicpark'
-    password = 'vfrcbvec'
 
     def parse(self, response, **kwargs):
         loader = ItemLoader(OfferItem(), response=response)

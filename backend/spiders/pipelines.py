@@ -19,16 +19,17 @@ class OfferPipeline:
         try:
             data = {
                 'name': item.name[0],
-                'supplier': 'http://127.0.0.1:8000/api/suppliers/1/',
+                'supplier': 'http://127.0.0.1:8000/api/suppliers/2/',
                 'url': item.url[0]
             }
             response = requests.post('http://127.0.0.1:8000/api/offers/', json=data)
+            amount = "".join(item.price) if item.price else "0.00"
             if response.status_code == 201:
                 offer = response.json()
                 logging.debug(offer)
                 requests.post('http://127.0.0.1:8000/api/prices/', data={
                     'offer': f'http://127.0.0.1:8000/api/offers/{offer["id"]}/',
-                    'amount': item.price[0] if item.price else 0
+                    'amount': amount
                 })
         except Exception as e:
             print(e)

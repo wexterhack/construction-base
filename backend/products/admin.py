@@ -5,5 +5,7 @@ from .models import *
 
 @admin.register(Offer)
 class OfferModelAdmin(admin.ModelAdmin):
-    pass
+    list_filter = ('supplier',)
+    readonly_fields = ('price',)
+    list_display = ('name', 'price')
 
