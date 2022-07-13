@@ -7,7 +7,7 @@ NEWSPIDER_MODULE = 'spiders.suppliers'
 # USER_AGENT = 'tools (+http://www.yourdomain.com)'
 
 # Obey robots.txt rules
-ROBOTSTXT_OBEY = True
+ROBOTSTXT_OBEY = False
 
 # Enabling Spidermon
 # SPIDERMON_ENABLED = True

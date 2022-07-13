@@ -5,25 +5,25 @@ from scrapy.spiders import SitemapSpider
 from ..items import OfferItem
 
 
-class UralintSpider(SitemapSpider):
+class CastoramaSpider(SitemapSpider):
     name = 'uralint'
-    sitemap_urls = ["https://chel.uralint.ru/sitemap.xml"]
+    sitemap_urls = ["https://www.castorama.ru/sitemap.xml"]
     sitemap_alternate_links = True
     sitemap_rules = [
-        ('/catalog/', 'parse'),
+        ('/', 'parse'),
     ]
 
     def parse(self, response, **kwargs):
-        if response.xpath('//div[@class="info_item"]').get():
+        if response.xpath('//div[contains(@class, "product-essential")]'):
             loader = ItemLoader(OfferItem(), response=response)
-            name: str = response.xpath('//h1/text()').get()
-            price: str = response.xpath('//div[@class="info_item"]//span[@class="price_value"]/text()').get()
-            package: str = response.xpath('//div[@class="info_item"]//span[@class="price_measure"]/text()').get()
+            name: str = response.xpath('//h1[contains(@class, "product-essential__name")]/text()').get()
+            price: str = response.xpath('//div[contains(@class, "add-to-cart__price")]//span[@class="price"]/span/span[1]/text()').get()
+            package: str = 'ШТ'
             loader.add_value('name', name)
             loader.add_value('price', price, re=r'[\d+,?|.?]')
             loader.add_value('package', package)
             loader.add_value('url', response.url)
-            loader.add_value('supplier', 'chel.uralint.ru')
+            loader.add_value('supplier', 'www.castorama.ru')
             yield loader.load_item()
         else:
             return DropItem
